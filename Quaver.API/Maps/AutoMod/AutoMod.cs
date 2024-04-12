@@ -422,8 +422,6 @@ namespace Quaver.API.Maps.AutoMod
                 {
                     if (image.Width < minWidth || image.Height < minHeight || image.Width > maxWidth || image.Height > maxHeight)
                         Issues.Add(new AutoModIssueImageResolution(item, minWidth, minHeight, maxWidth, maxHeight));
-
-                    image.Dispose();
                 }
             }
             catch (Exception e)

@@ -231,7 +231,8 @@ namespace Quaver.API.Replays
 
                 if (!readHeaderless)
                 {
-                    frames = Encoding.ASCII.GetString(LZMACoder.Decompress(br.BaseStream).ToArray()).Split(',').ToList();
+                    using var stream = LZMACoder.Decompress(br.BaseStream);
+                    frames = Encoding.ASCII.GetString(stream.ToArray()).Split(',').ToList();
                 }
                 else
                 {
@@ -299,7 +300,8 @@ namespace Quaver.API.Replays
                 bw.Write(CountMiss);
                 bw.Write(PauseCount);
                 bw.Write(RandomizeModifierSeed);
-                bw.Write(StreamHelper.ConvertStreamToByteArray(LZMACoder.Compress(replayDataStream)));
+                using var stream = LZMACoder.Compress(replayDataStream);
+                bw.Write(StreamHelper.ConvertStreamToByteArray(stream));
             }
         }
 
